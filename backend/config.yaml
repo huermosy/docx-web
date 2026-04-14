@@ -1,0 +1,35 @@
+# LLM 配置
+llm:
+  api_base: "http://localhost:8000/v1"  # 用户提供的LLM API地址
+  api_key: "your-api-key-here"
+  model: "gpt-4"  # 或用户指定的模型
+  timeout_seconds: 30
+  chinese_check_by_llm: true  # 中文拼写检查是否由LLM负责
+
+# 文档检查规则阈值
+rules:
+  # 字体字号
+  body_font_size_min: 10.5  # 正文最小字号（pt）
+  body_font_size_max: 12     # 正文字号最大（pt）
+  heading_font_sizes:
+    h1: 22
+    h2: 18
+    h3: 16
+  # 页边距
+  margin_top: 2.54    # cm
+  margin_bottom: 2.54
+  margin_left: 3.18
+  margin_right: 3.18
+  # 首行缩进
+  first_line_indent: 2  # 字符
+
+# 文件上传
+upload:
+  max_file_size_mb: 20
+  allowed_extensions:
+    - ".docx"
+
+# 异步任务
+task:
+  task_expiry_minutes: 60
+  cleanup_interval_minutes: 10

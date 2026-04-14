@@ -1,0 +1,20 @@
+# Local tooling
+.claude/
+.omc/
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+
+# Runtime artifacts
+uploads/
+reports/
+backend/temp/
+
+# OS files
+.DS_Store
+Thumbs.db
