@@ -35,7 +35,7 @@ cd backend
 pytest tests/test_api.py::test_health_endpoint -q
 ```
 
-说明：仓库内 `backend/requirements.txt` 未显式包含 `pytest` 和 `httpx`，测试前先确认环境中已安装这两个包。
+说明：仓库内 `backend/requirements.txt` 未显式包含 `pytest` 和 `httpx`，测试前先确认环境中已安装这两个包。仓库当前未发现 `backend/tests/`，如果要补测试，默认按上述 `pytest tests/...` 约定组织。
 
 ### 前端
 安装依赖并启动开发服务：
@@ -95,4 +95,5 @@ npm run preview
 - 前端展示的文件限制来自 `/api/config`，但 `backend/app/api/upload.py` 实际只允许上传 `.docx` 文档；如果修改上传能力，需要同时更新接口校验和配置展示。
 - 模板文件支持 `.dotx`、`.dot`、`.docx`、`.doc`，模板上传与文档上传走的是不同接口。
 - 报告是在下载时按当前任务结果即时生成的，不是分析完成时预先生成的。
+- `backend/run.py` 通过 `backend.app.main:app` 启动，适合从仓库根目录执行；如果已经 `cd backend`，优先使用 `python run.py` 或 `uvicorn app.main:app --reload`，不要把 `backend.` 前缀照搬到 `uvicorn` 命令里。
 - 如果后续要真正持久化配置，不能只改接口返回值，还要补上写回 `backend/config.yaml` 的路径与校验逻辑。

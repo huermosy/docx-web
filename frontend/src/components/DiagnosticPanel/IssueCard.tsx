@@ -1,5 +1,5 @@
 import { Issue } from '../../api/qcApi'
-import { AlertTriangle, AlertCircle, Info, Lightbulb } from 'lucide-react'
+import { AlertTriangle, AlertCircle, Info, Lightbulb, MapPin } from 'lucide-react'
 
 interface IssueCardProps {
   issue: Issue
@@ -7,57 +7,60 @@ interface IssueCardProps {
 
 const SEVERITY_CONFIG = {
   critical: {
-    color: 'border-red-500 bg-red-50',
-    textColor: 'text-red-700',
     icon: AlertTriangle,
     label: '严重',
+    textColor: 'issue-severity-critical',
+    cardClass: 'issue-card-critical',
   },
   major: {
-    color: 'border-yellow-500 bg-yellow-50',
-    textColor: 'text-yellow-700',
     icon: AlertCircle,
     label: '中等',
+    textColor: 'issue-severity-major',
+    cardClass: 'issue-card-major',
   },
   minor: {
-    color: 'border-blue-500 bg-blue-50',
-    textColor: 'text-blue-700',
     icon: Info,
     label: '轻微',
+    textColor: 'issue-severity-minor',
+    cardClass: 'issue-card-minor',
   },
 }
 
 export function IssueCard({ issue }: IssueCardProps) {
   const config = SEVERITY_CONFIG[issue.severity]
   const Icon = config.icon
+  const sourceLabel = issue.source === 'llm' ? 'LLM' : issue.source === 'merged' ? '合并' : '规则'
 
   return (
-    <div className={`border-l-4 rounded-r-lg p-4 ${config.color}`}>
-      <div className="flex items-start gap-3">
-        <Icon className={`h-5 w-5 mt-0.5 ${config.textColor}`} />
+    <div className={`issue-card ${config.cardClass}`}>
+      <div className="issue-header">
+        <div className="issue-icon-wrap">
+          <Icon className={`h-4 w-4 ${config.textColor}`} />
+        </div>
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <span className={`text-xs font-medium px-2 py-0.5 rounded ${config.textColor} bg-white`}>
-              {config.label}
-            </span>
-            <span className="text-xs text-gray-500">
-              {issue.source === 'llm' ? 'LLM' : issue.source === 'merged' ? '合并' : '规则'}
-            </span>
+          <div className="issue-badge-row">
+            <span className={`issue-meta-chip ${config.textColor}`}>{config.label}</span>
+            <span className="issue-source-chip">来源：{sourceLabel}</span>
+            <span className="issue-meta-chip">类别：{issue.category}</span>
           </div>
 
-          <p className="text-gray-800 mb-2">{issue.description}</p>
+          <p className="issue-title">{issue.description}</p>
 
-          <div className="text-sm text-gray-600">
-            <span>位置: </span>
-            <span>{issue.position.section || '未知章节'}</span>
-            {issue.position.paragraph > 0 && (
-              <span> - 段落 {issue.position.paragraph}</span>
-            )}
+          <div className="issue-meta-row">
+            <span className="issue-location inline-flex items-center gap-2">
+              <MapPin className="h-3.5 w-3.5" />
+              <span>{issue.position.section || '未知章节'}</span>
+              {issue.position.paragraph > 0 && <span>· 段落 {issue.position.paragraph}</span>}
+            </span>
           </div>
 
           {issue.fixSuggestion && (
-            <div className="mt-2 flex items-start gap-2 text-sm">
-              <Lightbulb className="h-4 w-4 text-green-600 mt-0.5" />
-              <span className="text-gray-700">{issue.fixSuggestion}</span>
+            <div className="issue-suggestion">
+              <Lightbulb className="mt-0.5 h-4 w-4 text-emerald-300" />
+              <div>
+                <div className="text-sm text-emerald-100">建议修复</div>
+                <div className="mt-1 text-sm text-[#d7e7df]">{issue.fixSuggestion}</div>
+              </div>
             </div>
           )}
         </div>

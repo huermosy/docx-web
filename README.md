@@ -11,6 +11,12 @@
 
 ## 快速开始
 
+### 一键启动（Windows）
+```bash
+start-dev.bat
+```
+说明：该脚本会在两个独立终端窗口分别启动后端（`python run.py`）和前端（`npm run dev`）。
+
 ### 后端
 ```bash
 cd backend
